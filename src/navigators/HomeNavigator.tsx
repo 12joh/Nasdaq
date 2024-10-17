@@ -13,7 +13,7 @@ const HomeNavigator = () => {
       screenOptions={{
         headerShown: false,
         contentStyle: {
-          backgroundColor: colors.white,
+          backgroundColor: colors.homeBackground,
         },
       }}
     >

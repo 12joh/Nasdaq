@@ -1,13 +1,9 @@
 import axios, { AxiosInstance, AxiosPromise, AxiosRequestConfig } from "axios";
-
-import AsyncStorage from "@react-native-async-storage/async-storage";
-// 3rd party libraries
 import promise from "promise";
-import { store } from "../redux/store";
 
 // Add a request interceptor
 export const axiosInstance: AxiosInstance = axios.create();
-let serverIP = "https://api.polygon.io/v3/reference/tickers";
+let serverIP = "https://api.polygon.io";
 // let serverIP = "https://15.222.242.185";
 
 // Intercepting all API requests

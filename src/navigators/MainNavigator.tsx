@@ -1,10 +1,6 @@
 
 import React, { useEffect, useState } from "react";
-
 import { NavigationContainer } from "@react-navigation/native";
-
-
-
 import { useSelector } from "react-redux";
 import { StoreType } from "../redux/store/StoreType";
 import { Image, ImageBackground, StyleSheet, Text, View } from "react-native";
@@ -16,25 +12,45 @@ const MainNavigator = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 3000); 
-
-    return () => clearTimeout(timer);
-  }, []);
+    }, 5000); 
+   return () => clearTimeout(timer);
+  },[]);
 
   const navigatorHandler = () => {
     if(isLoading){
-      console.log("hiii")
       return(
-         <View style={{backgroundColor:colors.black , flex:1}}>
-         <Image source={require('../../assets/images/Logo/Logo.png')} style={{width:'90%', alignSelf:'center'}}></Image> 
-         
+         <View style={styles.container}>
+         <Image 
+          source={require('../../assets/images/Logo/Logo.png')} 
+           style={styles.logo} 
+         />
+         <Text style={styles.text}>John Samy Samir</Text>
          </View>
-       );
+         );
      }else{
       return <HomeNavigator/>
      }
   };
   return <NavigationContainer>{navigatorHandler()}</NavigationContainer>;
 };
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: colors.black,
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  logo: {
+    width: '60%',
+    resizeMode: 'contain',
+  },
+  text: {
+    color: colors.white,
+    alignSelf: 'center',
+    bottom:'-10%',
+    fontSize:16
+  },
+});
 
 export default MainNavigator;

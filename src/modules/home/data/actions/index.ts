@@ -4,11 +4,11 @@ import {
   GET_STOCKS_FAILURE,
   GET_MORE_STOCKS,
   GET_MORE_STOCKS_FAILURE,
-  GET_MORE_STOCKS_SUCCESS
-} from "../../../../constants/actionTypes";
+  GET_MORE_STOCKS_SUCCESS,
+} from '../../../../constants/actionTypes';
 
 // ==== GET STOCKS ==== //
-export const getStocks = (search : string) => {
+export const getStocks = (search: string) => {
   return {
     type: GET_STOCKS,
     payload: {search},
@@ -18,19 +18,19 @@ export const getStocks = (search : string) => {
 export const getStocksSuccess = (data: any) => {
   return {
     type: GET_STOCKS_SUCCESS,
-    payload: { data },
+    payload: {data},
   };
 };
 
 export const getStocksFailure = (errorMessage: string) => {
   return {
     type: GET_STOCKS_FAILURE,
-    payload: { errorMessage },
+    payload: {errorMessage},
   };
 };
 
 // ==== GET STOCKS ==== //
-export const getMoreStocks = (search : string) => {
+export const getMoreStocks = (search: string) => {
   return {
     type: GET_MORE_STOCKS,
     payload: {search},
@@ -40,15 +40,13 @@ export const getMoreStocks = (search : string) => {
 export const getMoreStocksSuccess = (data: any) => {
   return {
     type: GET_MORE_STOCKS_SUCCESS,
-    payload: { data },
+    payload: {data},
   };
 };
 
 export const getMoreStocksFailure = (errorMessage: string) => {
   return {
     type: GET_MORE_STOCKS_FAILURE,
-    payload: { errorMessage },
+    payload: {errorMessage},
   };
 };
-
-

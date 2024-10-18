@@ -1,2 +1,1 @@
-export * from "../../modules/home/data/actions/index";
-
+export * from '../../modules/home/data/actions/index';

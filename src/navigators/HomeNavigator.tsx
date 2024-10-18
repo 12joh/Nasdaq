@@ -1,9 +1,9 @@
-import React from "react";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import React from 'react';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-import { colors } from "../theme/colors";
-import { HOME_SCREEN } from "./routes";
-import Home from "../modules/home/home";
+import {colors} from '../theme/colors';
+import {HOME_SCREEN} from './routes';
+import Home from '../modules/home/home';
 
 const Stack = createNativeStackNavigator();
 
@@ -15,10 +15,8 @@ const HomeNavigator = () => {
         contentStyle: {
           backgroundColor: colors.homeBackground,
         },
-      }}
-    >
-    <Stack.Screen name={HOME_SCREEN} component={Home} />
-     
+      }}>
+      <Stack.Screen name={HOME_SCREEN} component={Home} />
     </Stack.Navigator>
   );
 };

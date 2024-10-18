@@ -5,20 +5,20 @@ import {
   GET_MORE_STOCKS,
   GET_MORE_STOCKS_FAILURE,
   GET_MORE_STOCKS_SUCCESS,
-  RESET_ERRORS
-} from "../../../../constants/actionTypes";
+  RESET_ERRORS,
+} from '../../../../constants/actionTypes';
 
 const initialState = {
-  cardLoader:false,
-  cardError:false,
-  card:null,
+  cardLoader: false,
+  cardError: false,
+  card: null,
 };
 
 export default function (state = initialState, action: any) {
   switch (action.type) {
     // GET STOCKS
     case GET_STOCKS:
-      return { ...state, cardLoader: true, cardError: null };
+      return {...state, cardLoader: true, cardError: null};
     case GET_STOCKS_SUCCESS:
       return {
         ...state,
@@ -32,10 +32,10 @@ export default function (state = initialState, action: any) {
         cardLoader: false,
         cardError: action.payload.errorMessage,
       };
-      
+
     // GET MORE STOCKS
     case GET_MORE_STOCKS:
-      return { ...state, cardLoader: true, cardError: null };
+      return {...state, cardLoader: true, cardError: null};
     case GET_MORE_STOCKS_SUCCESS:
       return {
         ...state,
@@ -49,12 +49,12 @@ export default function (state = initialState, action: any) {
         cardLoader: false,
         cardError: action.payload.errorMessage,
       };
-      case RESET_ERRORS:
-        return {
-          ...state,
-          cardError:null
-        };
-   
+    case RESET_ERRORS:
+      return {
+        ...state,
+        cardError: null,
+      };
+
     default:
       return state;
   }

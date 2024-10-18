@@ -14,35 +14,36 @@ const Card = ({ mainText, subText} : {mainText : string, subText : string}) => {
         <Text style={styles.boxText}>{firstTwoLetters}</Text>
       </View>
       <Text style={styles.mainText}>{mainText}</Text>
-      <Text style={styles.subText}>{(subText?.length >= 30?
-           subText?.slice(0, 30) + "..."
-            : subText)}</Text>
+      <Text style={styles.subText} numberOfLines={1}>{subText}</Text>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: colors.black, 
+    backgroundColor: colors.card, 
     borderRadius: 20,
     padding: 15,
     alignItems: 'center',
     justifyContent: 'center',
-    width: '45%', 
+    width: '46%', 
     marginBottom: 20,
     height: 150,
   },
   box: {
-    backgroundColor: '#555',
+    backgroundColor: 'transparent',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 5,
+    borderColor:colors.iconBackground,
+    borderWidth:3,
     marginBottom: 10,
   },
   boxText: {
     color: 'white',
     fontSize: 20,
     fontWeight: 'bold',
+    padding:3,
   },
   mainText: {
     color: 'white',
@@ -53,6 +54,7 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 14,
     textAlign:'center'
+    
   },
 });
 

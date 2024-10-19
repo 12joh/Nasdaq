@@ -16,15 +16,23 @@ function* fetchStocks(data: any) {
   try {
     // @ts-ignore
     const response = yield call(getStocksRequest, {search});
-    const data = response.data;
-    if (data != undefined) {
+    const data = response?.data;
+    if (data != undefined || data != null) {
       yield put(getStocksSuccess(data));
+    } else {
+      yield put(getStocksFailure('SomeThing Went Wrong'));
     }
   } catch (error: any) {
     const errorMessage =
-      error?.response?.data?.message || error.message || 'Failed';
-    yield put(getStocksFailure(errorMessage));
-    if (error?.response?.status !== 401) {
+      error?.response?.data?.error || error.message || 'Failed';
+    if (error?.response?.status == 429) {
+      yield put(
+        getStocksFailure(
+          "You've exceeded the maximum requests per minute, please wait or upgrade your subscription to continue.",
+        ),
+      );
+    } else {
+      yield put(getStocksFailure(errorMessage));
     }
   }
 }

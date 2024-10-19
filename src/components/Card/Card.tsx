@@ -12,7 +12,7 @@ const Card = ({mainText, subText}: {mainText: string; subText: string}) => {
         <Text style={styles.boxText}>{firstTwoLetters}</Text>
       </View>
       <Text style={styles.mainText}>{mainText}</Text>
-      <Text style={styles.subText} numberOfLines={1}>
+      <Text style={styles.subText} numberOfLines={3}>
         {subText}
       </Text>
     </View>
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   subText: {
-    color: 'white',
+    color: colors.text,
     fontSize: 14,
     textAlign: 'center',
   },

@@ -1,4 +1,9 @@
-import axios, {AxiosInstance, AxiosPromise, AxiosRequestConfig} from 'axios';
+import axios, {
+  AxiosError,
+  AxiosInstance,
+  AxiosPromise,
+  AxiosRequestConfig,
+} from 'axios';
 import promise from 'promise';
 
 export const axiosInstance: AxiosInstance = axios.create();
@@ -52,23 +57,7 @@ export const sendAxiosRequest = async (parameters: {
     }
     return res;
   } catch (err: any) {
-    let error_message =
-      err?.response?.data?.errors?.full_messages?.reduce(
-        (acc: string, curr: string) => acc + '\n' + curr,
-        '',
-      ) || err?.message;
-    if (Array.isArray(err?.response?.data?.errors)) {
-      error_message = err?.response?.data?.errors?.reduce(
-        (acc_1: string, curr_1: any) => {
-          if (curr_1 && curr_1.hasOwnProperty('detail')) {
-            return acc_1 + '\n' + curr_1.detail;
-          } else {
-            return acc_1 + '\n' + curr_1;
-          }
-        },
-        '',
-      );
-    }
+    let error_message = err?.response?.data.error || err?.message;
     err.custom_message = error_message;
     if (actions?.apiCallFail) {
       actions.apiCallFail(err);
@@ -78,7 +67,7 @@ export const sendAxiosRequest = async (parameters: {
         }, 3000);
       }
     }
-    if (err?.response?.status === 401) {
+    if (err?.response?.data?.error != null) {
       throw err;
     }
   }

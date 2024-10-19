@@ -9,10 +9,10 @@ import {useEffect, useState} from 'react';
 const middlewares: any = [thunk];
 const mockStore = configureMockStore(middlewares);
 
+// THIS IS A UNIT TEST FOR THE LOADMORE FUNCTION IN THE HOME
 describe('loadMoreData', () => {
   let store: ReturnType<typeof mockStore>;
   let card: {next_url?: string};
-
   beforeEach(() => {
     store = mockStore({});
     card = {
@@ -57,8 +57,7 @@ jest.mock('react-redux', () => ({
 
 const useStocks = () => {
   const dispatch = useDispatch();
-
-  useEffect(() => {
+    useEffect(() => {
     dispatch({
       type: GET_STOCKS,
       payload: {
@@ -68,6 +67,8 @@ const useStocks = () => {
   }, [dispatch]);
 };
 
+// THIS IS A UNIT TEST FOR THE USE EFFECT USED TO GET STOCKS IN THE HOME 
+// PAGE WHICH WILL ALSO TEST THE API AS IT WILL HAVE TO FETCH THE DATA TO CHECK ON IT
 describe('useStocks', () => {
   const dispatch = jest.fn();
   beforeEach(() => {
@@ -105,11 +106,12 @@ const useMyHook = (card: any, isMore: boolean) => {
   return results;
 };
 
+// THIS IS A UNIT TEST FOR THE USE EFFECT USED TO UPDATE THE STOCKS LIST AFTER THE LOADMORE FUNCTION
+// IN THE HOME 
 describe('useMyHook', () => {
   it('should set results correctly based on isMore and card results', () => {
     const initialResults = ['result1', 'result2'];
     const additionalResults = ['result3', 'result4'];
-
     const {result, rerender} = renderHook(
       ({card, isMore}) => useMyHook(card, isMore),
       {

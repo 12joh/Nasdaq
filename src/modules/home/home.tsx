@@ -6,6 +6,8 @@ import {
   TextInput,
   View,
   StyleSheet,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import {colors} from '../../theme/colors';
 import Header from '../../components/Header/Header';
@@ -13,15 +15,18 @@ import {GET_MORE_STOCKS, GET_STOCKS} from '../../constants/actionTypes';
 import {useDispatch, useSelector} from 'react-redux';
 import Card from '../../components/Card/Card';
 import {cardType, StoreType} from '../../redux/store/StoreType';
+import Loading from '../../components/Loading/Loading';
 
 const Home = () => {
   const dispatch = useDispatch();
-  const {card} = useSelector((state: StoreType) => state.home);
+  const {card, cardLoader, cardError} = useSelector(
+    (state: StoreType) => state.home,
+  );
   const [search, setSearch] = useState('');
   const [results, setResults] = useState<cardType[]>([]);
   const [issearch, setIsSearch] = useState(false);
   const [isMore, setIsMore] = useState(false);
-  // THIS USEEFFECT IS TO LOAD THE STOCKS ONCE THE USER ENTER THE APPLICATION
+  // THIS USE EFFECT IS TO LOAD THE STOCKS ONCE THE USER ENTER THE APPLICATION
   useEffect(() => {
     setIsMore(false);
     setIsSearch(false);
@@ -32,7 +37,7 @@ const Home = () => {
       },
     });
   }, []);
-  // LOADMORE FUNCTION IS USED WHEN THE USER PASSES 80% OF THE STOCKS 
+  // LOADMORE FUNCTION IS USED WHEN THE USER PASSES 80% OF THE STOCKS
   // ALREADY ON THE SCREEN IT LOAD THE REST USING THIS FUNCTION
   const loadMoreData = () => {
     if (card?.next_url != undefined) {
@@ -50,7 +55,7 @@ const Home = () => {
       }
     }
   };
-  // THIS USEEFFECT IS USED WHEN ANY DATA IS FETCHED SO IT COULD BE ADDED TO THE PREVIOUS DATA
+  // THIS USE EFFECT IS USED WHEN ANY DATA IS FETCHED SO IT COULD BE ADDED TO THE PREVIOUS DATA
   useEffect(() => {
     if (isMore) {
       setResults(prevResults => [...prevResults, ...card?.results]);
@@ -58,7 +63,8 @@ const Home = () => {
       setResults(card?.results);
     }
   }, [card?.results]);
-// THIS USEEFFECT IS USED WHEN THE USER ENTER ANY DATA IN THE SEARCH BAR
+
+  // THIS USE EFFECT IS USED WHEN THE USER ENTER ANY DATA IN THE SEARCH BAR
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
       if (search !== undefined) {
@@ -83,40 +89,57 @@ const Home = () => {
   }, [search]);
 
   return (
-    <View style={styles.container}>
-      <StatusBar backgroundColor={colors.header} barStyle={'dark-content'} />
-      <View style={styles.headerContainer}>
-        <Header />
-      </View>
-      <View style={styles.searchContainer}>
-        <TextInput
-          onChangeText={(text: string) => {
-            setSearch(text);
-          }}
-          placeholder="Search"
-          textAlign="left"
-          style={styles.searchInput}
-        />
-      </View>
-      {issearch && card?.results.length === 0 ? (
-        <Text style={styles.noResultText}>No Result Found</Text>
-      ) : (
-        <View style={styles.listContainer}>
-          <FlatList
-            data={results}
-            renderItem={({item}: {item: cardType}) => (
-              <Card mainText={item.ticker} subText={item.name} />
-            )}
-            keyExtractor={(item: cardType, index) => index.toString()}
-            numColumns={2}
-            columnWrapperStyle={styles.columnWrapper}
-            contentContainerStyle={styles.flatListContainer}
-            onEndReached={loadMoreData}
-            onEndReachedThreshold={0.8}
+    <KeyboardAvoidingView
+      style={{flex: 1}}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+      <View style={styles.container}>
+        <StatusBar backgroundColor={colors.header} barStyle={'dark-content'} />
+        <View style={styles.headerContainer}>
+          <Header />
+        </View>
+        <View style={styles.searchContainer}>
+          <TextInput
+            onChangeText={(text: string) => {
+              setSearch(text);
+            }}
+            placeholder="Search"
+            textAlign="left"
+            style={styles.searchInput}
           />
         </View>
-      )}
-    </View>
+        {!isMore && cardLoader ? (
+          <Loading />
+        ) : (
+          <>
+            {issearch && cardError != null ? (
+              <Text style={styles.noResultText}>{cardError}</Text>
+            ) : (
+              <>
+                {issearch && card?.results.length === 0 ? (
+                  <Text style={styles.noResultText}>No Result Found</Text>
+                ) : (
+                  <View style={styles.listContainer}>
+                    <FlatList
+                      data={results}
+                      renderItem={({item}: {item: cardType}) => (
+                        <Card mainText={item.ticker} subText={item.name} />
+                      )}
+                      keyExtractor={(item: cardType, index) => index.toString()}
+                      numColumns={2}
+                      columnWrapperStyle={styles.columnWrapper}
+                      contentContainerStyle={styles.flatListContainer}
+                      onEndReached={loadMoreData}
+                      onEndReachedThreshold={0.8}
+                      keyboardShouldPersistTaps="handled"
+                    />
+                  </View>
+                )}
+              </>
+            )}
+          </>
+        )}
+      </View>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -135,7 +158,7 @@ const styles = StyleSheet.create({
   },
   searchInput: {
     marginTop: '5%',
-    height: '22%',
+    height: '25%',
     backgroundColor: colors.card,
     borderRadius: 30,
     borderColor: colors.iconBackground,
@@ -146,6 +169,8 @@ const styles = StyleSheet.create({
     color: colors.white,
     alignSelf: 'center',
     fontSize: 16,
+    textAlign: 'center',
+    width: '80%',
   },
   listContainer: {
     top: '-15%',

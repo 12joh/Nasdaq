@@ -5,4 +5,5 @@ export const colors = {
   white: '#ffffff',
   card: '#23263a',
   iconBackground: '#282c3f',
+  text: '#747883',
 };

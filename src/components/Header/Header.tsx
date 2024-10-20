@@ -1,3 +1,4 @@
+import React from 'react';
 import {Image, View, StyleSheet} from 'react-native';
 import {colors} from '../../theme/colors';
 // THE hEADER IS THE ELEMENT SHOWN IN THE HOME PAGE
